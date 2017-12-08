@@ -1,0 +1,36 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	/* 
+	max-width: 960px; 
+	border-style: dashed;
+	border-color: black;
+	*/
+
+}
+h3 {
+	color: navy;
+	text-align: center;
+}
+input {
+	align-content: center;
+}
+#background {
+	background-repeat: no-repeat;
+	background-size: 70%;
+	max-width: 700px;
+}
+
+#jiffy-form {
+	float: right;
+}
+
+#jiffy-view {
+	float: left;
+
+}
+
+
+

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite Movies</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <style type="text/css">
+    body {
+      background-color: lightgray;
+      color: black;
+      font-size: 1.22rem;
+      font-family: Courier;
+    }
+    button,
+    div,
+    form,
+    input {
+      margin: 5px 0 5px 0;
+    }
+    img {
+      float: right;
+      max-width: 480px;
+      width: 100%;
+      height: auto;
+      margin: 20px auto;
+      border: solid 2px black;
+      vertical-align: top;
+    }
+    #movie-form {
+      float: left;
+      font-size: .8rem;
+      margin-top: -5px;
+      padding-bottom: -5px;
+    }
+    p {
+      max-width: 480px;
+      width: 95%;
+    }
+    .movie {
+      font-size: .88rem;
+      width: 150px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>omdbApp</h1>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Demo Flix</a></li>
+    <li><a href="#tabs-2">User Pix</a></li>
+  </ul>
+  <div id="tabs-1">
+  <div id="buttons-view"></div>
+  </div>
+  <div id="tabs-2">
+  <div id="buttons-view2"></div>
+  </div>
+</div>
+    <!-- Rendered buttons will get dumped Here  -->
+    <hr>
+    <form id="movie-form">
+      <label for="movie-input">Add a Movie Bro</label>
+      <input type="text" id="movie-input">
+
+      <!-- Button triggers new movie to be added -->
+      <input id="add-movie" type="submit" value="Add a Movie Bro">
+    </form>
+    <br />
+    <br />
+    <hr />
+    <!-- Movies will get dumped here -->
+    <div id="movies-view"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+    <script type="text/javascript">
+      // Initial array of movies
+      var movies = ["Suspiria", "Ms. 45", "Black Caesar", "Kids", "True Romance", "The Toxic Avenger", "Dawn of the Dead", "Badlands", "El Topo", "Delta Force 5", "The Exterminator", "From Harlem With Hell", "Death Wish 4", "Coffee and Cigarettes", "Dead Man Walking", "Juice", "Bamboozled", "The Jerk", "Manhunter", "Style Wars", "12 O'Clock Boys"];
+      // displayMovieInfo function re-renders the HTML to display the appropriate content
+      function displayMovieInfo() {
+        var movie = $(this).attr("data-name");
+        var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece";
+        // Creates AJAX call for the specific movie button being clicked
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).done(function(data) {
+          console.log(data);
+          var string = []
+          string += "<img src='" + data.Poster + "'/>";
+          string += "<h2>" + data.Awards + "</h2>";
+          string += "<p>" + data.Title + " | Rated " +  data.Rated + " | ";
+          string += data.Runtime + '<br>' + data.Genre;
+          string += "<br />Released on " + data.Released;
+          string += "<hr>Directed by " + data.Director;
+          string += '<br /><hr>Written by ' + data.Writer;
+          string += "<br /><hr>Starring " + data.Actors;
+          string += "<hr>" + data.Plot + "<hr>";
+          var rate = data.Ratings
+          for (var i = 0; i < rate.length; i++) {
+          string += data.Ratings[i].Source + " : " + data.Ratings[i].Value + "<br />";
+          }
+          string += "<hr>Grossed " + data.BoxOffice;
+          string += " in box office sales<br />";
+          string += "Produced by " + data.Production;
+          string += "<br /><a href='" + data.Website + "'  target='_blank'>" + data.Website + "</a><br />";
+          string += "imdbVotes: " + data.imdbVotes;
+          string += " | imdbID: " + data.imdbID + '</p>';
+          var jDump = JSON.stringify(string);
+          var redundanC = jDump.replace(/\"/g, "");
+          $('#movies-view').html(redundanC);
+        });
+      }
+      // Function for displaying movie data
+      function renderButtons() {
+        console.log(movies.slice(-1).pop())
+        // Deletes the movies prior to adding new movies
+        // (this is necessary otherwise you will have repeat buttons)
+        $("#buttons-view").empty();
+        // Loops through the array of movies
+        for (var i = 0; i < movies.length; i++) {
+          console.log(movies);
+          // Then dynamicaly generates buttons for each movie in the array
+          // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+          
+        
+          var a = $("<button>");
+          // Adds a class of movie to our button
+          a.addClass("movie");
+          // Added a data-attribute
+          a.attr("data-name", movies[i]);
+          // Provided the initial button text
+          a.text(movies[i]);
+          // Added the button to the buttons-view div
+          $("#buttons-view").append(a);
+          }
+        }
+      // This function handles events where the add movie button is clicked
+      $("#add-movie").on("click", function(event) {
+        event.preventDefault();
+        // This line of code will grab the input from the textbox
+        var movie = $("#movie-input").val().trim();
+        // The movie from the textbox is then added to our array
+        movies.push(movie);
+        // Calling renderButtons which handles the processing of our movie array
+        renderButtons()
+        var demoButtons = $('.movie').slice(item => {
+          item.substr(item.indexOf('.'));
+        });
+        console.log(demoButtons);
+      });
+      // Adding click event listeners to all elements with a class of "movie"
+      $(document).on("click", ".movie", displayMovieInfo);
+      // Calling the renderButtons function to display the intial buttons
+      renderButtons();
+    </script>
+  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+
+</html>
