@@ -4,9 +4,9 @@
   	$('#difJifView').empty();     
 
     var jifs = $(this).attr('data-name');
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=AxG7sB4AUuc32QmFZGEslfExzzW2u9TM&q=" + jifs + "&limit=10&lang=en";
+    var qURL = "https://api.giphy.com/v1/gifs/search?api_key=AxG7sB4AUuc32QmFZGEslfExzzW2u9TM&q=" + jifs + "&limit=10&lang=en";
 
-    $.ajax({url: queryURL, method: 'GET'})
+    $.ajax({url: qURL, method: 'GET'})
        .done(function(response) {
            var results = response.data;
 
@@ -44,8 +44,6 @@
   }
   function renderButtons(){ 
     $('#buttons').empty();
-
-    // Loops through the array of difJif
     for (var i = 0; i < difJif.length; i++){
         var a = $('<button>') 
         a.addClass('jifStyle'); // Added a class 
@@ -56,25 +54,11 @@
         $('#buttons').append(a); // Added the button to the HTML
     }
   }
-
-  // ========================================================
-
-  // This function handles events where one button is clicked
   $('#newSearch').on('click', function(){
   	var jif = $('#jiffyRender').val().trim();
     difJif.push(jif);
     renderButtons();
     return false;
   })
-
-  // ========================================================
-
-  // Generic function for displaying the cartoonInfo
   $(document).on('click', '.jifStyle', displayArray);
-
-
-  // ========================================================
-
-  // This calls the renderButtons() function
   renderButtons();
-  //displayArray();
